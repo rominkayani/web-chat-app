@@ -12,6 +12,8 @@ const io = socketio(server)
 const publicDirectoryPath = path.join(__dirname, '../public')
 const port = process.env.PORT || 3000
 
+const Filter = require('bad-words')
+
 app.use(express.static(publicDirectoryPath))
 
 io.on('connection', (socket) => {
@@ -20,12 +22,25 @@ io.on('connection', (socket) => {
     socket.emit('message', 'Welcome!')
     socket.broadcast.emit('message', 'A new user has entered the chat!')
 
-    socket.on('sendMessage', (message) => {
+    socket.on('sendMessage', (message, callback) => {
+        const filter = new Filter()
+
+        if (filter.isProfane(message)) {
+            return callback('Dont use profanity')
+        }
+
         io.emit('message', message)
+        callback()
     })
 
     socket.on('disconnect', () => {
         io.emit('message', 'A user has left the chat')
+    })
+
+    socket.on('sendLocation', (coords, callback) => {
+        io.emit('message', `https://google.com/maps?q=${coords.latitude},${coords.longitude}`)
+
+        callback()
     })
 })
 
