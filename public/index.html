@@ -3,9 +3,11 @@
     <head></head>
     <body>
         Web Chat Application
-        <form id = "form">
-            <input type ="text" id = "message">
-            <input type="submit" id='submit' value="Submit">
+        
+        <form id = "message-form">
+            <input name="message" placeholder="Message">
+            <button>Send Message</button>
+
         </form>
 
         <script src = "/socket.io/socket.io.js"> </script>

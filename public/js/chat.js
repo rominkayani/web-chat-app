@@ -4,13 +4,11 @@ socket.on('message', (message) => {
     console.log(message)
 })
 
-const form = document.getElementById('form');
+document.querySelector('#message-form').addEventListener('submit', (e) => {
+    e.preventDefault()
 
-// document.querySelector('#message').addEventListener('submit', () => {
-//     console.log('Clicked')
-//     socket.emit('increment')
-// })
+    const message = e.target.elements.message.value 
 
-form.addEventListener('submit', () => {
-    console.log('Clicked')
+    socket.emit('sendMessage', message)
 })
+

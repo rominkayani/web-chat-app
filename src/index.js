@@ -12,15 +12,16 @@ const io = socketio(server)
 const publicDirectoryPath = path.join(__dirname, '../public')
 const port = process.env.PORT || 3000
 
-let message = "Welcome!"
-
 app.use(express.static(publicDirectoryPath))
 
 io.on('connection', (socket) => {
     console.log('New Connection')
 
-    socket.emit('message', message)
+    socket.emit('message', 'Welcome!')
 
+    socket.on('sendMessage', (message) => {
+        io.emit('message', message)
+    })
 })
 
 server.listen(port, () => {
