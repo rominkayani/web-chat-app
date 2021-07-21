@@ -16,6 +16,8 @@ const Filter = require('bad-words')
 
 const { generateMessage, generateLocationMessage } = require('./utils/messages')
 
+const { addUser, removeUser, getUser, getUsersInRoom } = require('./utils/users')
+
 app.use(express.static(publicDirectoryPath))
 
 io.on('connection', (socket) => {
@@ -23,11 +25,24 @@ io.on('connection', (socket) => {
 
 
 
-    socket.on('join', ({ username, room}) => {
-        socket.join(room)
+    socket.on('join', ({ username, room}, callback) => {
+        const { error, user } = addUser({
+            id: socket.id,
+            username: username,
+            room: room
+        })
+
+        // Send error if username exists in room
+        if (error) {
+            return callback(error)
+        }
+
+        socket.join(user.room)
 
         socket.emit('message', generateMessage('Welcome!'))
-        socket.broadcast.to(room).emit('message', generateMessage(`${username} has entered`))
+        socket.broadcast.to(user.room).emit('message', generateMessage(`${user.username} is here!`))
+
+        callback()
     })
 
     socket.on('sendMessage', (message, callback) => {
@@ -42,7 +57,13 @@ io.on('connection', (socket) => {
     })
 
     socket.on('disconnect', () => {
-        io.emit('message', generateMessage('A user has left the chat'))
+        const user = removeUser(socket.id)
+
+        if (user) {
+            io.to(user.room).emit('message', generateMessage(`${user.username} has left the chat`))
+
+        }
+
     })
 
     socket.on('sendLocation', (coords, callback) => {
