@@ -23,6 +23,7 @@ app.use(express.static(publicDirectoryPath))
 io.on('connection', (socket) => {
     console.log('New Connection')
 
+    // Ensure eveything is running fine
 
 
     socket.on('join', ({ username, room}, callback) => {
