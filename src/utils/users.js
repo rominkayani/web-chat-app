@@ -50,6 +50,15 @@ const removeUser = (id) => {
         return user.id === id
     })
 
+    // Finding the room, for which we will reduce count
+    const chosenUser = users[index]
+    const room = chosenUser.room
+    const existingRoom = rooms.find((currentroom) => {
+        return currentroom.room === room
+    })
+
+    existingRoom.membercount = existingRoom.membercount - 1
+
     if (index !== -1) {
     // Removes item from array by index
         return users.splice(index, 1)[0]

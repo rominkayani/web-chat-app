@@ -75,6 +75,8 @@ io.on('connection', (socket) => {
             })
         }
 
+        console.log(rooms)
+
     })
 
     socket.on('sendLocation', (coords, callback) => {
