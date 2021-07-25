@@ -1,4 +1,5 @@
 const users = []
+const rooms = []
 
 const addUser = ({ id, username, room}) => {
     // Cleaning up the data
@@ -21,6 +22,19 @@ const addUser = ({ id, username, room}) => {
         return {
             error: "Username is used"
         }
+    }
+
+    // Tracking room
+    const existingRoom = rooms.find((currentroom) => {
+        return currentroom.room === room
+    })
+
+    if (existingRoom) {
+        existingRoom.membercount = existingRoom.membercount + 1
+    } else {
+        const membercount = 1;
+        const newroom = { room, membercount}
+        rooms.push(newroom)
     }
 
     // Storing the user
@@ -62,5 +76,6 @@ module.exports = {
     addUser,
     removeUser,
     getUser,
-    getUsersInRoom
+    getUsersInRoom,
+    rooms
 }

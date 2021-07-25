@@ -16,7 +16,7 @@ const Filter = require('bad-words')
 
 const { generateMessage, generateLocationMessage } = require('./utils/messages')
 
-const { addUser, removeUser, getUser, getUsersInRoom } = require('./utils/users')
+const { addUser, removeUser, getUser, getUsersInRoom, rooms } = require('./utils/users')
 
 app.use(express.static(publicDirectoryPath))
 
@@ -48,6 +48,7 @@ io.on('connection', (socket) => {
             users: getUsersInRoom(user.room)
         })
 
+        console.log(rooms)
         callback()
     })
 
