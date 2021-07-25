@@ -53,6 +53,12 @@
                     <li>{{username}}</li>
                 {{/users}}
             </ul>
+            <h3 class ="list-title">List of All Rooms</h3>
+            <ul class="users">
+                {{#allrooms}}
+                    <li>{{room}} - {{membercount}}</li>
+                {{/allrooms}}
+            </ul>
         </script>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>

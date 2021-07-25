@@ -58,10 +58,18 @@ socket.on('locationMessage', (message) => {
     autoscroll()
 })
 
-socket.on('roomData', ({ room, users }) => {
+socket.on('roomData', ({ room, users, allrooms }) => {
     const html = Mustache.render(sidebarTemplate, {
         room,
-        users
+        users,
+        allrooms
+    })
+    document.querySelector('#sidebar').innerHTML = html
+})
+
+socket.on('roomChanges', (rooms) => {
+    const html = Mustache.render(sidebarTemplate, {
+        rooms
     })
     document.querySelector('#sidebar').innerHTML = html
 })
