@@ -3,4 +3,4 @@ A real-time web based chat application which allows users to create chat rooms, 
 
 
 # Demo
-[Launch](romin-web-chat-app.herokuapp.com/)
+[Launch](romin-web-chat-app.herokuapp.com)
